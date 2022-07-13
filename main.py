@@ -2,7 +2,9 @@ import simulator as sm
 
 c = sm.Circuit()
 
-n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, N0, N1, N2 = [c.add_node() for i in range(15)]
+n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, N0, N1, N2 = [
+                            c.add_node() for i in range(15)
+                            ]
 
 c.add_v_source(19918.58, n1, N0)
 c.add_v_source(sm.pol2rect(19918.58, -120), n5, N0)
@@ -47,4 +49,3 @@ c.add_impedance(2.5+0.25j, n11, n12)
 c.solve()
 
 # CORRIENTES DE LINEA
-
