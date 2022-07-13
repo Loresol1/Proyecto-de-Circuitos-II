@@ -1,8 +1,9 @@
 import numpy as np
-import simulator as sm
+
 
 def calculadora_impedancias(V, S):
     return V**2/np.conj(S)
+
 
 V_LL = 34.5e3
 

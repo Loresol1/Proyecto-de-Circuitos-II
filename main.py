@@ -1,10 +1,13 @@
 import simulator as sm
-import numpy as np
 import calculos_iniciales as ci
 
 c = sm.Circuit()
 
-n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, N0, N1, N2 = [c.add_node() for i in range(15)]
+n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, N0, N1, N2 = [
+
+                    c.add_node() for i in range(15)
+
+                    ]
 
 c.add_v_source(sm.pol2rect(ci.V_LN, 0), n1, N0)
 c.add_v_source(sm.pol2rect(ci.V_LN, -120), n5, N0)
@@ -77,7 +80,6 @@ print("   Antes de la empresa 1:")
 print("      Fase A: ", I_A1)
 print("      Fase B: ", I_A2)
 print("      Fase C: ", I_A3)
-
 
 
 """

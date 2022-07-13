@@ -11,6 +11,7 @@
 
 import numpy as np
 
+
 class Node:
     '''
     Clase para almacenar información de nodos.
@@ -19,10 +20,11 @@ class Node:
     def __init__(self):
 
         self.voltage = 0        # Tensión del nodo
-        # La tensión anterior se da con respecto a una tierra que es elegida por
-        # el método solve de la clase Circuit. Este atributo voltage no debería
-        # usarse externamente, sino que todas las tensiones deberían ser medidas
-        # de forma diferencial con el método measure_v de abajo.
+        # La tensión anterior se da con respecto a una tierra que es elegida
+        # por el método solve de la clase Circuit. Este atributo voltage no
+        # debería usarse externamente, sino que todas las tensiones deberían
+        # ser medidas de forma diferencial con el método measure_v de abajo.
+
 
 class Impedance:
     '''
@@ -52,6 +54,7 @@ class Impedance:
 
         return self.get_voltage()/self.value
 
+
 class V_source:
     '''
     Clase para las fuentes independientes de tensión.
@@ -73,10 +76,11 @@ class V_source:
 
     def get_current(self):
         '''
-        Obtener corriente a través de la fuente (incógnita, sale por el nodo +).
+        Obtener corriente a través de la fuente (incógnita, sale por el nodo +)
         '''
 
         return self.current
+
 
 class I_source:
     '''
@@ -87,11 +91,11 @@ class I_source:
 
         self.value = value              # Valor de la fuente
         self.node_tip = node_tip        # Terminal de la que sale la corriente
-        self.node_tail = node_tail      # Terminal por la que entra la corriente
+        self.node_tail = node_tail      # Terminal donde que entra la corriente
 
     def get_voltage(self):
         '''
-        Obtener tensión entre terminales de la fuente (incógnita, con + en tip).
+        Obtener tensión entre terminales de la fuente (incógnita, con + en tip)
         '''
 
         return self.node_tip.voltage - self.node_tail.voltage
@@ -102,6 +106,7 @@ class I_source:
         '''
 
         return self.value
+
 
 class Circuit:
     '''
@@ -151,7 +156,7 @@ class Circuit:
         Agregar fuente de corriente independiente al circuito.
         '''
 
-        source =  I_source(value, node_tip, node_tail)
+        source = I_source(value, node_tip, node_tail)
         self.i_sources.append(source)
 
         return source
@@ -263,6 +268,7 @@ class Circuit:
 
         return element.get_voltage()*np.conj(element.get_current())
 
+
 def pol2rect(mag, degs):
     '''
     Definir número complejo a partir de magnitud y ángulo en grados.
@@ -273,6 +279,7 @@ def pol2rect(mag, degs):
     imag = mag*np.sin(rads)
 
     return real + 1j*imag
+
 
 def rect2pol(z):
     '''
