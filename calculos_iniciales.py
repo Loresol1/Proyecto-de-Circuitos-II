@@ -1,8 +1,21 @@
 import numpy as np
+import simulator as sim
 
 
 def calculadora_impedancias(V, S):
     return V**2/np.conj(S)
+
+
+def pot2imp(S, fp, VLL):
+    """
+    Recibe la potencia compleja en VA, el factor de potencia y la tensión entre
+    lineas y devuelve el valor de la impedancia en ohms y en forma polar
+    """
+    P = S*fp
+    Q = P*np.tan(np.arccos(fp))
+    ST = P + 1j*Q
+
+    return sim.rect2pol(VLL**2/np.conj(ST))
 
 
 V_LL = 34.5e3
@@ -56,3 +69,9 @@ print("Tercera carga:")
 print("   Fase A: {:.2f}".format(Z3_a))
 print("   Fase B: {:.2f}".format(Z3_a))
 print("   Fase C: {:.2f}".format(Z3_a))
+
+
+print('**************************')
+print('**Sea S=1500kVA y fp=0.7**')
+print('**************************')
+print('Z = {}'.format(pot2imp(1500*1e3, 0.7, V_LL)))
