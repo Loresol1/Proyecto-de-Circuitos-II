@@ -1,6 +1,6 @@
 import simulator as sm
 import calculos_iniciales as ci
-import numpy as np
+# import numpy as np
 
 c = sm.Circuit()
 

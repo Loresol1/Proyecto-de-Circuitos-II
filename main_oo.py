@@ -1,16 +1,22 @@
 import simulator as sm
 import calculos_iniciales as ci
-import numpy as np
+# import numpy as np
 
 c = sm.Circuit()
 
+"""
+#n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, N0, N1, N2 =
+[c.add_node() for i in range(15)]
+"""
+N0, n1, n5, n9, n2, n6, n10, n3, n7, n11, n4, n8, n12, = [
 
-#n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, N0, N1, N2 = [c.add_node() for i in range(15)]
-N0, n1, n5, n9, n2, n6, n10, n3, n7, n11, n4, n8, n12, = [c.add_node() for i in range(13)]
+                                c.add_node() for i in range(13)
+
+                                ]
 
 generadorA = c.add_v_source(sm.pol2rect(ci.V_LN, 0), n1, N0)
 generadorB = c.add_v_source(sm.pol2rect(ci.V_LN, -120), n5, N0)
-generadorC =c.add_v_source(sm.pol2rect(ci.V_LN, -240), n9, N0)
+generadorC = c.add_v_source(sm.pol2rect(ci.V_LN, -240), n9, N0)
 
 # Impedancias Carga 1
 
@@ -50,8 +56,8 @@ faseC_25km = c.add_impedance(1+0.1j, n11, n12)
 
 # Lineas de neutro
 
-#c.add_impedance(1e-20, N0, N1)
-#c.add_impedance(1e-20, N1, N2)
+# c.add_impedance(1e-20, N0, N1)
+# c.add_impedance(1e-20, N1, N2)
 
 c.solve()
 # print(c.A)
@@ -62,6 +68,8 @@ c.solve()
 # print(c.b)
 #
 # exit()
+
+
 def corrientes_de_linea():
     """
     Corrientes de linea antes de la empresa 1
@@ -104,7 +112,7 @@ def corrientes_de_linea():
     I2_A3 = sm.rect2pol(ca_e2_faseC)
     I2_A3 = tuple([float("{0:.2f}".format(n)) for n in I2_A3])
 
-    #print("\nCORRIENTES DE LINEA:")
+    # print("\nCORRIENTES DE LINEA:")
     print("   Antes de la empresa 2:")
 
     print("      Fase A: ", I2_A1)
@@ -128,12 +136,13 @@ def corrientes_de_linea():
     I3_A3 = sm.rect2pol(ca_e3_faseC)
     I3_A3 = tuple([float("{0:.2f}".format(n)) for n in I3_A3])
 
-    #print("\nCORRIENTES DE LINEA:")
+    # print("\nCORRIENTES DE LINEA:")
     print("   Antes de la empresa 3:")
 
     print("      Fase A: ", I3_A1)
     print("      Fase B: ", I3_A2)
     print("      Fase C: ", I3_A3)
+
 
 def tensiones_entre_lineas():
     """
@@ -192,6 +201,7 @@ def tensiones_entre_lineas():
     print("      V_BC3: ", V_LN_3BC)
     print("      V_AC3: ", V_LN_3AC)
 
+
 def calculo_potencias():
     # Potencia para generadores
     S_generadorA = c.measure_S(generadorA)
@@ -217,7 +227,7 @@ def calculo_potencias():
     S_tot_carga1 = S_1A + S_1B + S_1C
     S_tot_carga2 = S_2A + S_2B + S_2C
     S_tot_carga3 = S_3A + S_3B + S_3C
-    S_tot_por_cargas = S_tot_carga1 + S_tot_carga2 + S_tot_carga3
+    # S_tot_por_cargas = S_tot_carga1 + S_tot_carga2 + S_tot_carga3
 
     print(sm.rect2pol(S_tot_generat))
     print(sm.rect2pol(S_tot_carga1))
@@ -238,5 +248,6 @@ acometida de cada una de las empresas
 3. Como calcular la perdida de potencia para cada empresa
 4. Por que me da negativa la potencia de para la carga 2
 5. Para la carga dos, es sumar
-6. La carga 3 tiene una potencia reactiva de 1070kj, entonces los capacitores tienen que proveer -1070k?
+6. La carga 3 tiene una potencia reactiva de 1070kj, entonces los capacitores
+tienen que proveer -1070k?
 """

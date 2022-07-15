@@ -21,7 +21,7 @@ class Node:
 
         self.voltage = 0        # Tensión del nodo
         # La tensión anterior se da con respecto a una tierra que es elegida
-        # por el método solve de la clase Circuit. Este atributo voltage no
+        # por el método  de la clase Circuit. Este atributo voltage no
         # debería usarse externamente, sino que todas las tensiones deberían
         # ser medidas de forma diferencial con el método measure_v de abajo.
 
