@@ -236,6 +236,9 @@ class Circuit:
                 A[j, N - 1 + k] = 1     # LCK
                 A[N - 1 + k, j] = -1    # LTK
 
+        self.A = A
+        self.b = b
+
         # Resolver circuito
         x = np.linalg.solve(A, b)
 

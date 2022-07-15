@@ -69,9 +69,3 @@ print("Tercera carga:")
 print("   Fase A: {:.2f}".format(Z3_a))
 print("   Fase B: {:.2f}".format(Z3_a))
 print("   Fase C: {:.2f}".format(Z3_a))
-
-
-print('**************************')
-print('**Sea S=1500kVA y fp=0.7**')
-print('**************************')
-print('Z = {}'.format(pot2imp(1500*1e3, 0.7, V_LL)))

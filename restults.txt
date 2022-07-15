@@ -1,0 +1,30 @@
+
+**********************
+CORRIENTES DE LÍNEA:
+
+Antes de la empresa 1:
+    Fase A: (251.58, -9.59)
+    Fase B: (153.56, -108.09)
+    Fase C: (327.6, 95.07)
+
+Antes de la empresa 2:
+    Fase A: (218.86, -11.05)
+    Fase B: (121.14, -104.81)
+    Fase C: (297.86, 92.36)
+
+Antes de la empresa 3:
+    Fase A: (24.74, -45.22)
+    Fase B: (24.71, -165.64)
+    Fase C: (24.57, 74.65)
+
+TENSIONES ENTRE LINEAS:
+
+En la salida de la subestacion:
+    VAB: (34500.0, -149.99999999999997)
+    VAB: (34499.999999999985, 90.00000000000004)
+    VAB: (34500.0, -29.99999999999997)
+
+Acometida de la empresa 1:
+    VA'B': (34343.04175262346, 30.022478901723883)
+    VB'C': (34262.921761500766, -90.02383787880407)
+    VC'A': (34279.03445317722, -29.88467703575965)
