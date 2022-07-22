@@ -1,78 +1,51 @@
 import simulator as sm
 import calculos_iniciales as ci
-# import numpy as np
+
 
 c = sm.Circuit()
 
-"""
-#n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, N0, N1, N2 =
-[c.add_node() for i in range(15)]
-"""
 N0, n1, n5, n9, n2, n6, n10, n3, n7, n11, n4, n8, n12, = [
 
                                 c.add_node() for i in range(13)
 
                                 ]
 
+# Adicion Generador
 generadorA = c.add_v_source(sm.pol2rect(ci.V_LN, 0), n1, N0)
 generadorB = c.add_v_source(sm.pol2rect(ci.V_LN, -120), n5, N0)
 generadorC = c.add_v_source(sm.pol2rect(ci.V_LN, -240), n9, N0)
 
 # Impedancias Carga 1
-
 Z1A = c.add_impedance(ci.Z1_a, n2, N0)
 Z1B = c.add_impedance(ci.Z1_a, n6, N0)
 Z1C = c.add_impedance(ci.Z1_a, n10, N0)
 
 # Impedancias Carga 2
-
 Z2A = c.add_impedance(ci.Z2_a, n3, N0)
 Z2B = c.add_impedance(ci.Z2_b, n7, N0)
 Z2C = c.add_impedance(ci.Z2_c, n11, N0)
 
-
-
-
 # Impedancia Carga 3
-
 Z3A = c.add_impedance(ci.Z3_a, n4, n12)
 Z3B = c.add_impedance(ci.Z3_a, n4, n8)
 Z3C = c.add_impedance(ci.Z3_a, n8, n12)
 
 # Impedancia lineas 5 km
-
 faseA_5km = c.add_impedance(0.5+0.05j, n1, n2)
 faseB_5km = c.add_impedance(0.5+0.05j, n5, n6)
 faseC_5km = c.add_impedance(0.5+0.05j, n9, n10)
 
 # Impedancia linea 15 km
-
 faseA_15km = c.add_impedance(1+0.1j, n2, n3)
 faseB_15km = c.add_impedance(1+0.1j, n6, n7)
 faseC_15km = c.add_impedance(1+0.1j, n10, n11)
 
 # Impedancia linea 25 km
-
 faseA_25km = c.add_impedance(1+0.1j, n3, n4)
 faseB_25km = c.add_impedance(1+0.1j, n7, n8)
 faseC_25km = c.add_impedance(1+0.1j, n11, n12)
 
-# Lineas de neutro
-
-# c.add_impedance(1e-20, N0, N1)
-# c.add_impedance(1e-20, N1, N2)
-
 c.solve()
-# print(c.A)
-# for i in range(c.A.shape[0]):
-#     print(f'Nodo {i+1}: {c.A[i,i]}')
-#
-# print(np.sum(np.abs(c.A)))
-# print(c.b)
-#
-# exit()
-
-
 def corrientes_de_linea():
     """
     Corrientes de linea antes de la empresa 1
@@ -221,24 +194,19 @@ def tensiones_entre_lineas():
 
 
 def calculo_potencias():
-    # Potencia para generadores
-    # S_generadorA = c.measure_S(generadorA)
-    # S_generadorB = c.measure_S(generadorB)
-    # S_generadorC = c.measure_S(generadorC)
 
-    # V_LN_1BC = sm.rect2pol(c.measure_v(n6, n10))
-    # V_LN_1BC = tuple([float("{0:.2f}".format(n)) for n in V_LN_1BC])
 
-    # Perdida de potencia en
+    # Perdida de potencia en impedancias de linea de 5km
     S_5kmA = c.measure_S(faseA_5km)
     S_5kmB = c.measure_S(faseB_5km)
     S_5kmC = c.measure_S(faseC_5km)
 
-
+    # Perdida de potencia en impedancias de linea de 15km
     S_15kmA = c.measure_S(faseA_15km)
     S_15kmB = c.measure_S(faseB_15km)
     S_15kmC = c.measure_S(faseC_15km)
 
+    # Perdida de potencia en impedancias de linea de 25km
     S_25kmA = c.measure_S(faseC_25km)
     S_25kmB = c.measure_S(faseC_25km)
     S_25kmC = c.measure_S(faseC_25km)
@@ -260,19 +228,6 @@ def calculo_potencias():
     print("      Carga C: {:.2f}".format(S_25kmC))
 
 
-
-
-
-
-
-
-
-
-    # print(sm.rect2pol(S_tot_generat))
-    # print(sm.rect2pol(S_tot_carga1))
-    # print(sm.rect2pol(S_tot_carga2))
-    # print(sm.rect2pol(S_tot_carga3))
-
 def calcular_z():
     comp_Z2A = c.compensate(Z2A)
     comp_Z2B = c.compensate(Z2B)
@@ -283,7 +238,7 @@ def calcular_z():
     comp_Z3C = c.compensate(Z3C)
 
     c.solve()
-    def string_formatting():
+    def voltage_comparison():
         newV_LN_1AB = sm.rect2pol(c.measure_v(n2, n6))
         newV_LN_1AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1AB])
 
@@ -373,27 +328,12 @@ def calcular_z():
         print("      Carga B: {:.2f}".format(new_S_25kmB))
         print("      Carga C: {:.2f}".format(new_S_25kmC))
 
-
-
-    string_formatting()
+    voltage_comparison()
     S_comparison()
-
-
-
 
 corrientes_de_linea()
 tensiones_entre_lineas()
 calculo_potencias()
 calcular_z()
 
-"""
-DUDAS PARA FRANCISCO:
-1. Ver impedancias de linea para cada carga
-2. Determine la tension entre lineas a la salida de la subestacion, y en la
-acometida de cada una de las empresas
-3. Como calcular la perdida de potencia para cada empresa
-4. Por que me da negativa la potencia de para la carga 2
-5. Para la carga dos, es sumar
-6. La carga 3 tiene una potencia reactiva de 1070kj, entonces los capacitores
-tienen que proveer -1070k?
-"""
+
