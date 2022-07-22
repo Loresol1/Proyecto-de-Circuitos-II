@@ -46,6 +46,8 @@ faseB_25km = c.add_impedance(1+0.1j, n7, n8)
 faseC_25km = c.add_impedance(1+0.1j, n11, n12)
 
 c.solve()
+
+
 def corrientes_de_linea():
     """
     Corrientes de linea antes de la empresa 1
@@ -124,7 +126,7 @@ def tensiones_entre_lineas():
     """
     Tension entre lineas para la salida de la subestacion
     """
-    #print("\nTENSIONES ENTRE LINEAS")
+    # print("\nTENSIONES ENTRE LINEAS")
 
     V_subest_AB = sm.rect2pol(c.measure_v(n1, n5))
     V_subest_AB = tuple([float("{0:.2f}".format(n)) for n in V_subest_AB])
@@ -132,14 +134,13 @@ def tensiones_entre_lineas():
     V_subest_BC = sm.rect2pol(c.measure_v(n5, n9))
     V_subest_BC = tuple([float("{0:.2f}".format(n)) for n in V_subest_BC])
 
-    V_subest_AC= sm.rect2pol(c.measure_v(n1, n9))
+    V_subest_AC = sm.rect2pol(c.measure_v(n1, n9))
     V_subest_AC = tuple([float("{0:.2f}".format(n)) for n in V_subest_AC])
 
     print("   Tensiones a la salida de la subestacion:")
     print("      V_AB1: ", V_subest_AB)
     print("      V_BC1: ", V_subest_BC)
     print("      V_AC1: ", V_subest_AC)
-
 
     """
     Tension entre lineas para la salida de empresa 1
@@ -195,7 +196,6 @@ def tensiones_entre_lineas():
 
 def calculo_potencias():
 
-
     # Perdida de potencia en impedancias de linea de 5km
     S_5kmA = c.measure_S(faseA_5km)
     S_5kmB = c.measure_S(faseB_5km)
@@ -238,6 +238,7 @@ def calcular_z():
     comp_Z3C = c.compensate(Z3C)
 
     c.solve()
+
     def voltage_comparison():
         newV_LN_1AB = sm.rect2pol(c.measure_v(n2, n6))
         newV_LN_1AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1AB])
@@ -247,7 +248,6 @@ def calcular_z():
 
         newV_LN_1AC = sm.rect2pol(c.measure_v(n2, n10))
         newV_LN_1AC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1AC])
-
 
         newV_LN_2AB = sm.rect2pol(c.measure_v(n3, n7))
         newV_LN_2AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_2AB])
@@ -298,7 +298,6 @@ def calcular_z():
         print("         V_BC3:", newV_LN_3BC)
         print("         V_AC3:", newV_LN_3AC)
 
-
     def S_comparison():
         new_S_5kmA = c.measure_S(faseA_5km)
         new_S_5kmB = c.measure_S(faseB_5km)
@@ -331,9 +330,8 @@ def calcular_z():
     voltage_comparison()
     S_comparison()
 
+
 corrientes_de_linea()
 tensiones_entre_lineas()
 calculo_potencias()
 calcular_z()
-
-
