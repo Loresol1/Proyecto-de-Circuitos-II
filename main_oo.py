@@ -30,6 +30,9 @@ Z2A = c.add_impedance(ci.Z2_a, n3, N0)
 Z2B = c.add_impedance(ci.Z2_b, n7, N0)
 Z2C = c.add_impedance(ci.Z2_c, n11, N0)
 
+
+
+
 # Impedancia Carga 3
 
 Z3A = c.add_impedance(ci.Z3_a, n4, n12)
@@ -148,7 +151,22 @@ def tensiones_entre_lineas():
     """
     Tension entre lineas para la salida de la subestacion
     """
-    print("\nTENSIONES ENTRE LINEAS")
+    #print("\nTENSIONES ENTRE LINEAS")
+
+    V_subest_AB = sm.rect2pol(c.measure_v(n1, n5))
+    V_subest_AB = tuple([float("{0:.2f}".format(n)) for n in V_subest_AB])
+
+    V_subest_BC = sm.rect2pol(c.measure_v(n5, n9))
+    V_subest_BC = tuple([float("{0:.2f}".format(n)) for n in V_subest_BC])
+
+    V_subest_AC= sm.rect2pol(c.measure_v(n1, n9))
+    V_subest_AC = tuple([float("{0:.2f}".format(n)) for n in V_subest_AC])
+
+    print("   Tensiones a la salida de la subestacion:")
+    print("      V_AB1: ", V_subest_AB)
+    print("      V_BC1: ", V_subest_BC)
+    print("      V_AC1: ", V_subest_AC)
+
 
     """
     Tension entre lineas para la salida de empresa 1
@@ -204,41 +222,169 @@ def tensiones_entre_lineas():
 
 def calculo_potencias():
     # Potencia para generadores
-    S_generadorA = c.measure_S(generadorA)
-    S_generadorB = c.measure_S(generadorB)
-    S_generadorC = c.measure_S(generadorC)
+    # S_generadorA = c.measure_S(generadorA)
+    # S_generadorB = c.measure_S(generadorB)
+    # S_generadorC = c.measure_S(generadorC)
 
-    # Potencia para empresa1
-    S_1A = c.measure_S(Z1A)
-    S_1B = c.measure_S(Z1B)
-    S_1C = c.measure_S(Z1C)
+    # V_LN_1BC = sm.rect2pol(c.measure_v(n6, n10))
+    # V_LN_1BC = tuple([float("{0:.2f}".format(n)) for n in V_LN_1BC])
 
-    # Potencia para empresa2
-    S_2A = c.measure_S(Z2A)
-    S_2B = c.measure_S(Z2B)
-    S_2C = c.measure_S(Z2C)
+    # Perdida de potencia en
+    S_5kmA = c.measure_S(faseA_5km)
+    S_5kmB = c.measure_S(faseB_5km)
+    S_5kmC = c.measure_S(faseC_5km)
 
-    # Potencia para empresa3
-    S_3A = c.measure_S(Z3A)
-    S_3B = c.measure_S(Z3B)
-    S_3C = c.measure_S(Z3C)
 
-    S_tot_generat = S_generadorA + S_generadorB + S_generadorC
-    S_tot_carga1 = S_1A + S_1B + S_1C
-    S_tot_carga2 = S_2A + S_2B + S_2C
-    S_tot_carga3 = S_3A + S_3B + S_3C
-    # S_tot_por_cargas = S_tot_carga1 + S_tot_carga2 + S_tot_carga3
+    S_15kmA = c.measure_S(faseA_15km)
+    S_15kmB = c.measure_S(faseB_15km)
+    S_15kmC = c.measure_S(faseC_15km)
 
-    print(sm.rect2pol(S_tot_generat))
-    print(sm.rect2pol(S_tot_carga1))
-    print(sm.rect2pol(S_tot_carga2))
-    print(sm.rect2pol(S_tot_carga3))
+    S_25kmA = c.measure_S(faseC_25km)
+    S_25kmB = c.measure_S(faseC_25km)
+    S_25kmC = c.measure_S(faseC_25km)
+
+    print("\nPERDIDA DE POTENCIA POR LINEAS")
+    print("   Tramo antes de la empresa 1 (5 km):")
+    print("      Carga A: {:.2f}" .format(S_5kmA))
+    print("      Carga B: {:.2f}" .format(S_5kmB))
+    print("      Carga C: {:.2f}" .format(S_5kmC))
+
+    print("   Tramo antes de la empresa 1 (15 km):")
+    print("      Carga A: {:.2f}".format(S_15kmA))
+    print("      Carga B: {:.2f}".format(S_15kmB))
+    print("      Carga C: {:.2f}".format(S_15kmC))
+
+    print("   Tramo antes de la empresa 1 (25 km):")
+    print("      Carga A: {:.2f}".format(S_25kmA))
+    print("      Carga B: {:.2f}".format(S_25kmB))
+    print("      Carga C: {:.2f}".format(S_25kmC))
+
+
+
+
+
+
+
+
+
+
+    # print(sm.rect2pol(S_tot_generat))
+    # print(sm.rect2pol(S_tot_carga1))
+    # print(sm.rect2pol(S_tot_carga2))
+    # print(sm.rect2pol(S_tot_carga3))
+
+def calcular_z():
+    comp_Z2A = c.compensate(Z2A)
+    comp_Z2B = c.compensate(Z2B)
+    comp_Z2C = c.compensate(Z2C)
+
+    comp_Z3A = c.compensate(Z3A)
+    comp_Z3B = c.compensate(Z3B)
+    comp_Z3C = c.compensate(Z3C)
+
+    c.solve()
+    def string_formatting():
+        newV_LN_1AB = sm.rect2pol(c.measure_v(n2, n6))
+        newV_LN_1AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1AB])
+
+        newV_LN_1BC = sm.rect2pol(c.measure_v(n6, n10))
+        newV_LN_1BC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1BC])
+
+        newV_LN_1AC = sm.rect2pol(c.measure_v(n2, n10))
+        newV_LN_1AC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1AC])
+
+
+        newV_LN_2AB = sm.rect2pol(c.measure_v(n3, n7))
+        newV_LN_2AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_2AB])
+
+        newV_LN_2BC = sm.rect2pol(c.measure_v(n7, n11))
+        newV_LN_2BC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_2BC])
+
+        newV_LN_2AC = sm.rect2pol(c.measure_v(n3, n11))
+        newV_LN_2AC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_2AC])
+
+        newV_LN_3AB = sm.rect2pol(c.measure_v(n3, n7))
+        newV_LN_3AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_3AB])
+
+        newV_LN_3BC = sm.rect2pol(c.measure_v(n7, n11))
+        newV_LN_3BC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_3BC])
+
+        newV_LN_3AC = sm.rect2pol(c.measure_v(n3, n11))
+        newV_LN_3AC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_3AC])
+
+        print("\nINCREMENTO DE FACTOR DE POTENCIA:")
+        print("   Impedancias necesarias para incrementar el factor de"
+              "   \n   potencia a 1:")
+
+        print("      Carga 1: La carga 1 es puramente resistiva.")
+        print("      Carga 2:")
+        print("         Fase A: {:.2f}"  .format(comp_Z2A.value))
+        print("         Fase B: {:.2f}"  .format(comp_Z2B.value))
+        print("         Fase C: {:.2f}"  .format(comp_Z2C.value))
+        print("      Carga 3:")
+        print("         Fase A: {:.2f}".format(comp_Z3A.value))
+        print("         Fase B: {:.2f}".format(comp_Z3B.value))
+        print("         Fase C: {:.2f}".format(comp_Z3C.value))
+
+        print("\nCOMPARACION DE TENSIONES:")
+        print("   TENSIONES CON F.P CORREGIDO")
+        print("      Empresa 1:")
+        print("         V_AB1:", newV_LN_1AB)
+        print("         V_BC1:", newV_LN_1BC)
+        print("         V_AC1:", newV_LN_1AC)
+
+        print("      Empresa 2:")
+        print("         V_AB2:", newV_LN_2AB)
+        print("         V_BC2:", newV_LN_2BC)
+        print("         V_AC2:", newV_LN_2AC)
+
+        print("      Empresa 3:")
+        print("         V_AB3:", newV_LN_3AB)
+        print("         V_BC3:", newV_LN_3BC)
+        print("         V_AC3:", newV_LN_3AC)
+
+
+    def S_comparison():
+        new_S_5kmA = c.measure_S(faseA_5km)
+        new_S_5kmB = c.measure_S(faseB_5km)
+        new_S_5kmC = c.measure_S(faseC_5km)
+
+        new_S_15kmA = c.measure_S(faseA_15km)
+        new_S_15kmB = c.measure_S(faseB_15km)
+        new_S_15kmC = c.measure_S(faseC_15km)
+
+        new_S_25kmA = c.measure_S(faseC_25km)
+        new_S_25kmB = c.measure_S(faseC_25km)
+        new_S_25kmC = c.measure_S(faseC_25km)
+
+        print("\nPERDIDA DE POTENCIA POR LINEAS")
+        print("   Tramo antes de la empresa 1 (5 km):")
+        print("      Carga A: {:.2f}".format(new_S_5kmA))
+        print("      Carga B: {:.2f}".format(new_S_5kmB))
+        print("      Carga C: {:.2f}".format(new_S_5kmC))
+
+        print("   Tramo antes de la empresa 1 (15 km):")
+        print("      Carga A: {:.2f}".format(new_S_15kmA))
+        print("      Carga B: {:.2f}".format(new_S_15kmB))
+        print("      Carga C: {:.2f}".format(new_S_15kmC))
+
+        print("   Tramo antes de la empresa 1 (25 km):")
+        print("      Carga A: {:.2f}".format(new_S_25kmA))
+        print("      Carga B: {:.2f}".format(new_S_25kmB))
+        print("      Carga C: {:.2f}".format(new_S_25kmC))
+
+
+
+    string_formatting()
+    S_comparison()
+
+
 
 
 corrientes_de_linea()
 tensiones_entre_lineas()
 calculo_potencias()
-
+calcular_z()
 
 """
 DUDAS PARA FRANCISCO:
