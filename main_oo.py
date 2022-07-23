@@ -307,8 +307,8 @@ def calcular_z():
         new_S_15kmB = c.measure_S(faseB_15km)
         new_S_15kmC = c.measure_S(faseC_15km)
 
-        new_S_25kmA = c.measure_S(faseC_25km)
-        new_S_25kmB = c.measure_S(faseC_25km)
+        new_S_25kmA = c.measure_S(faseA_25km)
+        new_S_25kmB = c.measure_S(faseB_25km)
         new_S_25kmC = c.measure_S(faseC_25km)
 
         print("\nPERDIDA DE POTENCIA POR LINEAS")
