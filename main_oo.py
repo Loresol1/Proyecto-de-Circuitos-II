@@ -217,12 +217,12 @@ def calculo_potencias():
     print("      Carga B: {:.2f}" .format(S_5kmB))
     print("      Carga C: {:.2f}" .format(S_5kmC))
 
-    print("   Tramo antes de la empresa 1 (15 km):")
+    print("   Tramo antes de la empresa 2 (15 km):")
     print("      Carga A: {:.2f}".format(S_15kmA))
     print("      Carga B: {:.2f}".format(S_15kmB))
     print("      Carga C: {:.2f}".format(S_15kmC))
 
-    print("   Tramo antes de la empresa 1 (25 km):")
+    print("   Tramo antes de la empresa 3 (25 km):")
     print("      Carga A: {:.2f}".format(S_25kmA))
     print("      Carga B: {:.2f}".format(S_25kmB))
     print("      Carga C: {:.2f}".format(S_25kmC))
@@ -318,12 +318,12 @@ def calcular_z():
         print("      Carga B: {:.2f}".format(new_S_5kmB))
         print("      Carga C: {:.2f}".format(new_S_5kmC))
 
-        print("   Tramo antes de la empresa 1 (15 km):")
+        print("   Tramo antes de la empresa 2 (15 km):")
         print("      Carga A: {:.2f}".format(new_S_15kmA))
         print("      Carga B: {:.2f}".format(new_S_15kmB))
         print("      Carga C: {:.2f}".format(new_S_15kmC))
 
-        print("   Tramo antes de la empresa 1 (25 km):")
+        print("   Tramo antes de la empresa 3 (25 km):")
         print("      Carga A: {:.2f}".format(new_S_25kmA))
         print("      Carga B: {:.2f}".format(new_S_25kmB))
         print("      Carga C: {:.2f}".format(new_S_25kmC))
