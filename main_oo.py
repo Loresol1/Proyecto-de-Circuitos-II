@@ -207,8 +207,8 @@ def calculo_potencias():
     S_15kmC = c.measure_S(faseC_15km)
 
     # Perdida de potencia en impedancias de linea de 25km
-    S_25kmA = c.measure_S(faseC_25km)
-    S_25kmB = c.measure_S(faseC_25km)
+    S_25kmA = c.measure_S(faseA_25km)
+    S_25kmB = c.measure_S(faseB_25km)
     S_25kmC = c.measure_S(faseC_25km)
 
     print("\nPERDIDA DE POTENCIA POR LINEAS")
