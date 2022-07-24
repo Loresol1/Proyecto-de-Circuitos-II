@@ -46,8 +46,6 @@ faseB_25km = c.add_impedance(1+0.1j, n7, n8)
 faseC_25km = c.add_impedance(1+0.1j, n11, n12)
 
 c.solve()
-
-
 def corrientes_de_linea():
     """
     Corrientes de linea antes de la empresa 1
@@ -126,7 +124,7 @@ def tensiones_entre_lineas():
     """
     Tension entre lineas para la salida de la subestacion
     """
-    # print("\nTENSIONES ENTRE LINEAS")
+    print("\nTENSIONES ENTRE LINEAS")
 
     V_subest_AB = sm.rect2pol(c.measure_v(n1, n5))
     V_subest_AB = tuple([float("{0:.2f}".format(n)) for n in V_subest_AB])
@@ -134,13 +132,14 @@ def tensiones_entre_lineas():
     V_subest_BC = sm.rect2pol(c.measure_v(n5, n9))
     V_subest_BC = tuple([float("{0:.2f}".format(n)) for n in V_subest_BC])
 
-    V_subest_AC = sm.rect2pol(c.measure_v(n1, n9))
+    V_subest_AC= sm.rect2pol(c.measure_v(n9, n1))
     V_subest_AC = tuple([float("{0:.2f}".format(n)) for n in V_subest_AC])
 
     print("   Tensiones a la salida de la subestacion:")
-    print("      V_AB1: ", V_subest_AB)
-    print("      V_BC1: ", V_subest_BC)
-    print("      V_AC1: ", V_subest_AC)
+    print("      V_AB: ", V_subest_AB)
+    print("      V_BC: ", V_subest_BC)
+    print("      V_CA: ", V_subest_AC)
+
 
     """
     Tension entre lineas para la salida de empresa 1
@@ -151,13 +150,13 @@ def tensiones_entre_lineas():
     V_LN_1BC = sm.rect2pol(c.measure_v(n6, n10))
     V_LN_1BC = tuple([float("{0:.2f}".format(n)) for n in V_LN_1BC])
 
-    V_LN_1AC = sm.rect2pol(c.measure_v(n2, n10))
+    V_LN_1AC = sm.rect2pol(c.measure_v(n10, n2))
     V_LN_1AC = tuple([float("{0:.2f}".format(n)) for n in V_LN_1AC])
 
     print("   Acometida para empresa 1:")
     print("      V_AB1: ", V_LN_1AB)
     print("      V_BC1: ", V_LN_1BC)
-    print("      V_AC1: ", V_LN_1AC)
+    print("      V_CA1: ", V_LN_1AC)
 
     """
     Tension entre lineas para la salida de empresa 2
@@ -168,13 +167,13 @@ def tensiones_entre_lineas():
     V_LN_2BC = sm.rect2pol(c.measure_v(n7, n11))
     V_LN_2BC = tuple([float("{0:.2f}".format(n)) for n in V_LN_2BC])
 
-    V_LN_2AC = sm.rect2pol(c.measure_v(n3, n11))
+    V_LN_2AC = sm.rect2pol(c.measure_v(n11, n3))
     V_LN_2AC = tuple([float("{0:.2f}".format(n)) for n in V_LN_2AC])
 
     print("   Acometida para empresa 2:")
     print("      V_AB2: ", V_LN_2AB)
     print("      V_BC2: ", V_LN_2BC)
-    print("      V_AC2: ", V_LN_2AC)
+    print("      V_CA2: ", V_LN_2AC)
 
     """
     Tension entre lineas para la salida de empresa 3
@@ -185,16 +184,17 @@ def tensiones_entre_lineas():
     V_LN_3BC = sm.rect2pol(c.measure_v(n8, n12))
     V_LN_3BC = tuple([float("{0:.2f}".format(n)) for n in V_LN_3BC])
 
-    V_LN_3AC = sm.rect2pol(c.measure_v(n4, n12))
+    V_LN_3AC = sm.rect2pol(c.measure_v(n12, n4))
     V_LN_3AC = tuple([float("{0:.2f}".format(n)) for n in V_LN_3AC])
 
     print("   Acometida para empresa 3:")
     print("      V_AB3: ", V_LN_3AB)
     print("      V_BC3: ", V_LN_3BC)
-    print("      V_AC3: ", V_LN_3AC)
+    print("      V_CA3: ", V_LN_3AC)
 
 
 def calculo_potencias():
+
 
     # Perdida de potencia en impedancias de linea de 5km
     S_5kmA = c.measure_S(faseA_5km)
@@ -217,12 +217,12 @@ def calculo_potencias():
     print("      Carga B: {:.2f}" .format(S_5kmB))
     print("      Carga C: {:.2f}" .format(S_5kmC))
 
-    print("   Tramo antes de la empresa 2 (15 km):")
+    print("   Tramo antes de la empresa 1 (15 km):")
     print("      Carga A: {:.2f}".format(S_15kmA))
     print("      Carga B: {:.2f}".format(S_15kmB))
     print("      Carga C: {:.2f}".format(S_15kmC))
 
-    print("   Tramo antes de la empresa 3 (25 km):")
+    print("   Tramo antes de la empresa 1 (25 km):")
     print("      Carga A: {:.2f}".format(S_25kmA))
     print("      Carga B: {:.2f}".format(S_25kmB))
     print("      Carga C: {:.2f}".format(S_25kmC))
@@ -238,7 +238,6 @@ def calcular_z():
     comp_Z3C = c.compensate(Z3C)
 
     c.solve()
-
     def voltage_comparison():
         newV_LN_1AB = sm.rect2pol(c.measure_v(n2, n6))
         newV_LN_1AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1AB])
@@ -246,8 +245,9 @@ def calcular_z():
         newV_LN_1BC = sm.rect2pol(c.measure_v(n6, n10))
         newV_LN_1BC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1BC])
 
-        newV_LN_1AC = sm.rect2pol(c.measure_v(n2, n10))
+        newV_LN_1AC = sm.rect2pol(c.measure_v(n10, n2))
         newV_LN_1AC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_1AC])
+
 
         newV_LN_2AB = sm.rect2pol(c.measure_v(n3, n7))
         newV_LN_2AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_2AB])
@@ -258,13 +258,13 @@ def calcular_z():
         newV_LN_2AC = sm.rect2pol(c.measure_v(n3, n11))
         newV_LN_2AC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_2AC])
 
-        newV_LN_3AB = sm.rect2pol(c.measure_v(n3, n7))
+        newV_LN_3AB = sm.rect2pol(c.measure_v(n4, n8))
         newV_LN_3AB = tuple([float("{0:.2f}".format(n)) for n in newV_LN_3AB])
 
-        newV_LN_3BC = sm.rect2pol(c.measure_v(n7, n11))
+        newV_LN_3BC = sm.rect2pol(c.measure_v(n8, n12))
         newV_LN_3BC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_3BC])
 
-        newV_LN_3AC = sm.rect2pol(c.measure_v(n3, n11))
+        newV_LN_3AC = sm.rect2pol(c.measure_v(n12, n4))
         newV_LN_3AC = tuple([float("{0:.2f}".format(n)) for n in newV_LN_3AC])
 
         print("\nINCREMENTO DE FACTOR DE POTENCIA:")
@@ -286,17 +286,18 @@ def calcular_z():
         print("      Empresa 1:")
         print("         V_AB1:", newV_LN_1AB)
         print("         V_BC1:", newV_LN_1BC)
-        print("         V_AC1:", newV_LN_1AC)
+        print("         V_CA1:", newV_LN_1AC)
 
         print("      Empresa 2:")
         print("         V_AB2:", newV_LN_2AB)
         print("         V_BC2:", newV_LN_2BC)
-        print("         V_AC2:", newV_LN_2AC)
+        print("         V_CA2:", newV_LN_2AC)
 
         print("      Empresa 3:")
         print("         V_AB3:", newV_LN_3AB)
         print("         V_BC3:", newV_LN_3BC)
-        print("         V_AC3:", newV_LN_3AC)
+        print("         V_CA3:", newV_LN_3AC)
+
 
     def S_comparison():
         new_S_5kmA = c.measure_S(faseA_5km)
@@ -317,12 +318,12 @@ def calcular_z():
         print("      Carga B: {:.2f}".format(new_S_5kmB))
         print("      Carga C: {:.2f}".format(new_S_5kmC))
 
-        print("   Tramo antes de la empresa 2 (15 km):")
+        print("   Tramo antes de la empresa 1 (15 km):")
         print("      Carga A: {:.2f}".format(new_S_15kmA))
         print("      Carga B: {:.2f}".format(new_S_15kmB))
         print("      Carga C: {:.2f}".format(new_S_15kmC))
 
-        print("   Tramo antes de la empresa 3 (25 km):")
+        print("   Tramo antes de la empresa 1 (25 km):")
         print("      Carga A: {:.2f}".format(new_S_25kmA))
         print("      Carga B: {:.2f}".format(new_S_25kmB))
         print("      Carga C: {:.2f}".format(new_S_25kmC))
@@ -330,8 +331,9 @@ def calcular_z():
     voltage_comparison()
     S_comparison()
 
-
 corrientes_de_linea()
 tensiones_entre_lineas()
 calculo_potencias()
 calcular_z()
+
+
